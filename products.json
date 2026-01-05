@@ -1,21 +1,18 @@
 [
   {
     "name": "Hotwheels Exotic Limited",
-    "image": "product-1.jpg",
     "type": "LIMITED",
-    "desc": "Dòng Exotic cao cấp, số lượng giới hạn, giá trị sưu tầm cao."
+    "image": "product-1.jpg"
   },
   {
     "name": "Japan Culture Series",
-    "image": "product-2.jpg",
     "type": "LIMITED",
-    "desc": "Bộ sưu tập lấy cảm hứng từ văn hóa đường phố Nhật Bản."
+    "image": "product-2.jpg"
   },
   {
     "name": "Custom Order",
-    "image": "product-3.jpg",
     "type": "CUSTOM",
-    "desc": "Nhận custom theo yêu cầu, thiết kế độc quyền."
+    "image": "product-3.jpg"
   }
 ]
 

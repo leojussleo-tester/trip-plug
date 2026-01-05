@@ -1,77 +1,74 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Trip Plug - Exotic Hotwheels</title>
-
-    <!-- Google Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <title>Trip Plug – Exotic Hotwheels</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-    <!-- HERO -->
-    <header class="hero">
-        <img src="logo.png" alt="Trip Plug Logo" class="logo">
-        <h1>TRIP PLUG</h1>
-        <p>Exotic · Limited · Japan Culture</p>
+<!-- ================= HEADER ================= -->
+<header class="site-header">
+    <div class="header-inner">
+        <div class="logo-area">
+            <img src="logo.png" alt="Trip Plug">
+            <span>TRIP PLUG</span>
+        </div>
 
-        <a href="#contact" class="btn-primary">
-            Liên Hệ Ngay
-        </a>
-    </header>
+        <nav class="main-nav">
+            <a href="#" data-filter="ALL">Tất cả</a>
+            <a href="#" data-filter="LIMITED">Limited</a>
+            <a href="#" data-filter="CUSTOM">Custom</a>
+            <a href="#contact">Liên hệ</a>
+        </nav>
 
-    <!-- SERVICE -->
-    <section class="service fade">
-       <h2>Dịch Vụ</h2>
-       <div class="service-list"></div>
-    </section>
-
-
-    <!-- PRODUCT -->
-    <section class="product fade">
-    <h2>Sản Phẩm Nổi Bật</h2>
-
-    <div class="product-grid skeleton">
-    <div class="product-skeleton"></div>
-    <div class="product-skeleton"></div>
-    <div class="product-skeleton"></div>
-</div>
-
-    <!-- FILTER -->
-    <div class="product-filter">
-        <button data-type="all" class="active">Tất Cả</button>
-        <button data-type="LIMITED">Limited</button>
-        <button data-type="CUSTOM">Custom</button>
+        <div class="search-box">
+            <input id="searchInput" type="text" placeholder="Tìm sản phẩm...">
+        </div>
     </div>
+</header>
 
-    <!-- GRID -->
+<!-- ================= HERO ================= -->
+<section class="hero fade">
+    <img src="logo.png" class="logo">
+    <h1>TRIP PLUG</h1>
+    <p>Exotic · Limited · Japan Culture</p>
+    <a href="#products" class="btn-primary">Xem sản phẩm</a>
+</section>
+
+<!-- ================= PRODUCTS ================= -->
+<section id="products" class="product">
+    <h2>Sản Phẩm Nổi Bật</h2>
     <div class="product-grid"></div>
 </section>
 
+<!-- ================= CONTACT ================= -->
+<section id="contact" class="contact fade">
+    <h2>Liên hệ</h2>
+    <p>Trip Plug – Exotic Hotwheels</p>
+    <p>📞 0900 000 000</p>
+    <p>📧 tripplug@gmail.com</p>
+    <p>📍 TP. Hồ Chí Minh</p>
+</section>
 
-    <!-- CONTACT -->
-    <section id="contact" class="contact fade">
-        <h2>Tư Vấn Sản Phẩm</h2>
+<footer class="site-footer">
+    <p>© 2026 Trip Plug</p>
+</footer>
 
-        <form id="contactForm">
-            <input type="text" id="name" placeholder="Họ Tên" required />
-            <input type="tel" id="phone" placeholder="Số Điện Thoại" required />
-            <textarea id="message" placeholder="Nhu Cầu Của Bạn" required></textarea>
+<!-- ================= PRODUCT MODAL ================= -->
+<div id="productModal" class="modal">
+    <div class="modal-overlay"></div>
 
-            <button type="submit" class="btn-primary">
-                Gửi Yêu Cầu
-            </button>
-        </form>
+    <div class="modal-content">
+        <button class="modal-close">&times;</button>
+        <img id="modalImage">
+        <h3 id="modalName"></h3>
+        <p id="modalType"></p>
+        <button class="btn-primary">Liên hệ đặt hàng</button>
+    </div>
+</div>
 
-        <p id="formMessage"></p>
-    </section>
-
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

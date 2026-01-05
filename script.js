@@ -1,9 +1,18 @@
 console.log("SCRIPT RUNNING");
 
+/* ================= GLOBAL STATE ================= */
+let products = [];
+let currentFilter = "ALL";
+
+/* ================= DOM READY ================= */
 document.addEventListener("DOMContentLoaded", () => {
     console.log("SCRIPT READY");
 
-    // ================= FADE OBSERVER =================
+    const grid = document.querySelector(".product-grid");
+    const searchInput = document.getElementById("searchInput");
+    const navLinks = document.querySelectorAll(".main-nav a[data-filter]");
+
+    /* ================= FADE EFFECT ================= */
     const observer = new IntersectionObserver(
         entries => {
             entries.forEach(entry => {
@@ -20,150 +29,96 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelectorAll(".fade").forEach(el => observer.observe(el));
     }
 
-    // ================= DATA =================
-    const services = [
-        "Custom Hotwheels",
-        "Đấu Giá",
-        "Ký Gửi",
-        "Order Nhật",
-        "Săn Limited",
-        "Tư Vấn Sưu Tầm"
-    ];
-
-    let products = [];
-
-fetch("products.json")
-    .then(res => res.json())
-    .then(data => {
-        products = data;
-
-        // remove skeleton
-        productGrid.classList.remove("skeleton");
-        productGrid.innerHTML = "";
-
-        renderProducts(products);
-    })
-    .catch(err => {
-        console.error("Không load được products.json", err);
-    });
-
-    // ================= SERVICE =================
-    const serviceList = document.querySelector(".service-list");
-    if (serviceList) {
-        services.forEach(s => {
-            const div = document.createElement("div");
-            div.className = "service-item fade";
-            div.textContent = s;
-            serviceList.appendChild(div);
-        });
-    }
-
-    // ================= PRODUCT =================
-    const productGrid = document.querySelector(".product-grid");
-    const filterButtons = document.querySelectorAll(".product-filter button");
-
+    /* ================= RENDER PRODUCTS ================= */
     function renderProducts(list) {
-        productGrid.innerHTML = "";
+        grid.innerHTML = "";
 
-        list.forEach(p => {
-            const card = document.createElement("article");
+        if (!list.length) {
+            grid.innerHTML = "<p>Không tìm thấy sản phẩm</p>";
+            return;
+        }
+
+        list.forEach(product => {
+            const card = document.createElement("div");
             card.className = "product-card fade";
 
             card.innerHTML = `
-                <span class="badge">${p.type}</span>
-                <img src="${p.image}" alt="${p.name}">
-                <p>${p.name}</p>
+                <span class="badge">${product.type}</span>
+                <img src="${product.image}" alt="${product.name}">
+                <p>${product.name}</p>
             `;
 
-            card.addEventListener("click", () => {
-               openProductModal(p);
-            });
-
-
-            productGrid.appendChild(card);
+            card.addEventListener("click", () => openModal(product));
+            grid.appendChild(card);
         });
 
         observeFade();
     }
 
-    // ================= FILTER =================
-    filterButtons.forEach(btn => {
-        btn.addEventListener("click", () => {
-            document.querySelector(".product-filter .active")?.classList.remove("active");
-            btn.classList.add("active");
+    /* ================= FILTER + SEARCH ================= */
+    function applyFilterAndSearch() {
+        const keyword = searchInput.value.toLowerCase();
 
-            const type = btn.dataset.type;
-            renderProducts(type === "all" ? products : products.filter(p => p.type === type));
+        const result = products.filter(p => {
+            const matchType =
+                currentFilter === "ALL" || p.type === currentFilter;
+
+            const matchText =
+                p.name.toLowerCase().includes(keyword);
+
+            return matchType && matchText;
+        });
+
+        renderProducts(result);
+    }
+
+    /* ================= EVENTS ================= */
+    searchInput.addEventListener("input", applyFilterAndSearch);
+
+    navLinks.forEach(link => {
+        link.addEventListener("click", e => {
+            e.preventDefault();
+            currentFilter = link.dataset.filter;
+            applyFilterAndSearch();
         });
     });
 
-    // ================= FORM =================
-    const form = document.getElementById("contactForm");
-    const msg = document.getElementById("formMessage");
+    /* ================= LOAD DATA ================= */
+    fetch("products.json")
+        .then(res => res.json())
+        .then(data => {
+            products = data;
+            renderProducts(products);
+        })
+        .catch(err => console.error("Không load được products.json", err));
 
-    form?.addEventListener("submit", e => {
-        e.preventDefault();
-
-        const name = document.getElementById("name").value.trim();
-        const phone = document.getElementById("phone").value.trim();
-        const phoneRegex = /^(0|\+84)(3|5|7|8|9)[0-9]{8}$/;
-
-        if (!name) return showMessage("Vui lòng nhập họ tên", "red");
-        if (!phoneRegex.test(phone)) return showMessage("Số điện thoại không hợp lệ", "red");
-
-        showMessage("Gửi thành công! Chúng tôi sẽ liên hệ sớm.", "green");
-        form.reset();
-    });
-
-    function showMessage(text, color) {
-        msg.textContent = text;
-        msg.style.color = color;
-    }
-
-    // ================= MODAL =================
-    function openModal(src) {
-        const modal = document.createElement("div");
-        modal.className = "image-modal";
-
-        modal.innerHTML = `
-            <div class="image-modal-content">
-                <img src="${src}">
-            </div>
-        `;
-
-        modal.addEventListener("click", () => modal.remove());
-        document.body.appendChild(modal);
-    }
-
-    // INIT FADE
     observeFade();
-    function openProductModal(product) {
-    const modal = document.createElement("div");
-    modal.className = "product-modal";
+});
 
-    modal.innerHTML = `
-        <div class="product-modal-content">
-            <span class="close">&times;</span>
+/* ================= MODAL (SAFE) ================= */
+const modal = document.getElementById("productModal");
+const modalImage = document.getElementById("modalImage");
+const modalName = document.getElementById("modalName");
+const modalType = document.getElementById("modalType");
+const modalClose = document.querySelector(".modal-close");
+const modalOverlay = document.querySelector(".modal-overlay");
 
-            <img src="${product.image}" alt="${product.name}">
-
-            <h3>${product.name}</h3>
-            <span class="tag">${product.type}</span>
-
-            <p class="desc">${product.desc}</p>
-
-            <a href="#contact" class="btn-primary">
-                Liên hệ mua
-            </a>
-        </div>
-    `;
-
-    modal.querySelector(".close").addEventListener("click", () => modal.remove());
-    modal.addEventListener("click", e => {
-        if (e.target === modal) modal.remove();
-    });
-
-    document.body.appendChild(modal);
+function openModal(product) {
+    if (!modal) return;
+    modalImage.src = product.image;
+    modalName.textContent = product.name;
+    modalType.textContent = product.type;
+    modal.classList.add("show");
 }
 
+function closeModal() {
+    if (!modal) return;
+    modal.classList.remove("show");
+}
+
+modalClose && modalClose.addEventListener("click", closeModal);
+modalOverlay && modalOverlay.addEventListener("click", closeModal);
+
+document.addEventListener("keydown", e => {
+    if (e.key === "Escape") closeModal();
 });
