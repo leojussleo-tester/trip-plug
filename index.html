@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trip Plug - Exotic Hotwheels</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+    <!-- HERO -->
+    <header class="hero">
+        <img src="logo.png" alt="Trip Plug Logo" class="logo">
+        <h1>TRIP PLUG</h1>
+        <p>Exotic · Limited · Japan Culture</p>
+
+        <a href="#contact" class="btn-primary">
+            Liên Hệ Ngay
+        </a>
+    </header>
+
+    <!-- SERVICE -->
+    <section class="service fade">
+       <h2>Dịch Vụ</h2>
+       <div class="service-list"></div>
+    </section>
+
+
+    <!-- PRODUCT -->
+    <section class="product fade">
+    <h2>Sản Phẩm Nổi Bật</h2>
+
+    <div class="product-grid skeleton">
+    <div class="product-skeleton"></div>
+    <div class="product-skeleton"></div>
+    <div class="product-skeleton"></div>
+</div>
+
+    <!-- FILTER -->
+    <div class="product-filter">
+        <button data-type="all" class="active">Tất Cả</button>
+        <button data-type="LIMITED">Limited</button>
+        <button data-type="CUSTOM">Custom</button>
+    </div>
+
+    <!-- GRID -->
+    <div class="product-grid"></div>
+</section>
+
+
+    <!-- CONTACT -->
+    <section id="contact" class="contact fade">
+        <h2>Tư Vấn Sản Phẩm</h2>
+
+        <form id="contactForm">
+            <input type="text" id="name" placeholder="Họ Tên" required />
+            <input type="tel" id="phone" placeholder="Số Điện Thoại" required />
+            <textarea id="message" placeholder="Nhu Cầu Của Bạn" required></textarea>
+
+            <button type="submit" class="btn-primary">
+                Gửi Yêu Cầu
+            </button>
+        </form>
+
+        <p id="formMessage"></p>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
